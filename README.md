@@ -1,15 +1,71 @@
+# Add a New Assessment Feature to an Online Course Application
 
-**General Notes**
+This repository contains my completion of the IBM Skills Network final Django lab:
 
-An `onlinecourse` app has already been provided in this repo upon which you will be adding a new assesement feature.
+- Added assessment models: `Question`, `Choice`, `Submission`
+- Registered new models and inlines in Django admin
+- Added course exam UI in `course_detail_bootstrap.html`
+- Implemented exam submission and result flow in `views.py`
+- Added routes for `submit` and `show_exam_result`
+- Completed Bootstrap exam result template
 
-- If you want to develop the final project on Theia hosted by [IBM Developer Skills Network](https://labs.cognitiveclass.ai/), you will need to create the same project structure on Theia workspace and save it everytime you close the browser
-- Or you could develop the final project locally by setting up your own Python runtime and IDE
-- Hints for the final project are left on source code files
-- You may choose any cloud platform for deployment (default is IBM Cloud Foundry)
-- Depends on your deployment, you may choose any SQL database Django supported such as SQLite3, PostgreSQL, and MySQL (default is SQLite3)
+## Repository
 
-**ER Diagram**
-For your reference, we have prepared the ER diagram design for the new assesement feature.
+- GitHub: `https://github.com/yy31104/tfjzl-final-cloud-app-with-database`
 
-![Onlinecourse ER Diagram](https://github.com/ibm-developer-skills-network/final-cloud-app-with-database/blob/master/static/media/course_images/onlinecourse_app_er.png)
+## Local Run (Windows)
+
+Use **Python 3.11** (recommended for Django 4.2.x compatibility).
+
+```powershell
+cd "C:\桌面\IBM FullStack\SQL\Add a New Assessment Feature to an Online Course Application\tfjzl-final-cloud-app-with-database"
+
+# Optional: create a Python 3.11 virtual environment
+py -3.11 -m venv .venv311
+.\.venv311\Scripts\Activate.ps1
+
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+Open:
+
+- App: `http://127.0.0.1:8000/onlinecourse/`
+- Admin: `http://127.0.0.1:8000/admin/`
+
+## If You See Admin Error: `'super' object has no attribute 'dicts'`
+
+This usually means Python runtime incompatibility (commonly Python 3.14 with Django 4.2.x).
+Switch to Python 3.11 virtualenv and rerun.
+
+## What Was Committed
+
+1. `feat(models): add assessment models and initial migration`
+   - `onlinecourse/models.py`
+   - `onlinecourse/migrations/0001_initial.py`
+
+2. `feat(admin): register assessment models and inlines`
+   - `onlinecourse/admin.py`
+
+3. `feat(exam): add submit flow, exam result view, routes and templates`
+   - `onlinecourse/views.py`
+   - `onlinecourse/urls.py`
+   - `onlinecourse/templates/onlinecourse/course_detail_bootstrap.html`
+   - `onlinecourse/templates/onlinecourse/exam_result_bootstrap.html`
+
+4. `docs: update README and ignore local .venv311`
+   - `README.md`
+   - `.gitignore`
+
+## AI-Graded Submission Checklist
+
+- `03-admin-site` screenshot: Django admin showing both sections:
+  - `AUTHENTICATION AND AUTHORIZATION`
+  - `ONLINECOURSE`
+- `07-final` screenshot: successful exam attempt with:
+  - Congratulations message
+  - score
+  - exam results list
+- Public GitHub repo URL above

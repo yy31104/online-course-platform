@@ -95,9 +95,38 @@ class Enrollment(models.Model):
     rating = models.FloatField(default=5.0)
 
 
-# One enrollment could have multiple submission
+class Question(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    question_text = models.CharField(max_length=200)
+    grade = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.question_text
+
+    def is_get_score(self, selected_ids):
+        # Score this question only when the selected choices exactly match
+        # all and only the correct choices.
+        correct_choice_ids = set(
+            self.choice_set.filter(is_correct=True).values_list('id', flat=True)
+        )
+        selected_for_this_question = set(
+            self.choice_set.filter(id__in=selected_ids).values_list('id', flat=True)
+        )
+        return self.grade if selected_for_this_question == correct_choice_ids else 0
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.choice_text
+
+
+# One enrollment could have multiple submissions
 # One submission could have multiple choices
 # One choice could belong to multiple submissions
-#class Submission(models.Model):
-#    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-#    choices = models.ManyToManyField(Choice)
+class Submission(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)

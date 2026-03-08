@@ -1,127 +1,93 @@
-# Django Online Course Application (Full Project Overview)
+ï»¿# Django Online Course Application
 
-This repository contains a full Django online course system built through the IBM Full Stack learning path, including:
+This repository contains a full Django online course platform built across multiple lab stages, including authentication, course enrollment, lesson delivery, and exam assessment.
 
-- user authentication (registration/login/logout)
-- course catalog and enrollment
-- course detail pages with lesson content
-- exam/assessment workflow (question -> choice -> submission -> scoring)
-- Django admin management for course content
-- Bootstrap-based UI templates
+## What This Project Includes
 
-## Project Scope
-
-This is **not only a final-lab patch**. The repository includes the complete app flow from earlier labs to final assessment features:
-
-1. Base online course data model and course browsing
-2. Function-based and class-based/generic views
-3. Authentication and user enrollment flow
-4. Bootstrap integration for course pages
-5. Assessment system (Question/Choice/Submission)
-6. Exam submission and result evaluation
+- User registration, login, and logout
+- Course list and enrollment workflow
+- Course detail pages with lessons
+- Exam workflow with questions and choices
+- Exam submission and score evaluation
+- Django admin management for content creation
+- Bootstrap based UI templates
 
 ## Tech Stack
 
 - Python
 - Django 4.2.3
-- SQLite (default local database)
-- Bootstrap 4.5.2 (CDN)
-- Pillow (image support)
+- SQLite
+- Bootstrap 4.5.2
+- Pillow
 
 ## Repository Structure
 
 ```text
 .
-©À©¤©¤ manage.py
-©À©¤©¤ myproject/
-©¦   ©À©¤©¤ settings.py
-©¦   ©À©¤©¤ urls.py
-©¦   ©¸©¤©¤ wsgi.py
-©À©¤©¤ onlinecourse/
-©¦   ©À©¤©¤ admin.py
-©¦   ©À©¤©¤ models.py
-©¦   ©À©¤©¤ urls.py
-©¦   ©À©¤©¤ views.py
-©¦   ©À©¤©¤ migrations/
-©¦   ©¸©¤©¤ templates/onlinecourse/
-©¦       ©À©¤©¤ course_list_bootstrap.html
-©¦       ©À©¤©¤ course_detail_bootstrap.html
-©¦       ©À©¤©¤ exam_result_bootstrap.html
-©¦       ©À©¤©¤ user_login_bootstrap.html
-©¦       ©¸©¤©¤ user_registration_bootstrap.html
-©¸©¤©¤ static/
+|-- manage.py
+|-- myproject/
+|   |-- settings.py
+|   |-- urls.py
+|   `-- wsgi.py
+|-- onlinecourse/
+|   |-- admin.py
+|   |-- models.py
+|   |-- urls.py
+|   |-- views.py
+|   |-- migrations/
+|   `-- templates/onlinecourse/
+|       |-- course_list_bootstrap.html
+|       |-- course_detail_bootstrap.html
+|       |-- exam_result_bootstrap.html
+|       |-- user_login_bootstrap.html
+|       `-- user_registration_bootstrap.html
+|-- static/
+|-- requirements.txt
+|-- runtime.txt
+|-- Procfile
+`-- manifest.yml
 ```
 
-## Core Domain Models
+## Core Models
 
-Defined in `onlinecourse/models.py`.
+Defined in `onlinecourse/models.py`:
 
-- `Instructor`: linked to Django `User`, tracks teaching profile
-- `Learner`: linked to Django `User`, stores learner profile
-- `Course`: course metadata, image, instructors, enrolled users
-- `Lesson`: one-to-many under `Course`
-- `Enrollment`: bridge between `User` and `Course`
-- `Question`: exam question under `Course`, includes grade points
-- `Choice`: options under `Question`, includes correctness flag
-- `Submission`: one exam attempt, linked to `Enrollment`, many-to-many with `Choice`
+- `Instructor`
+- `Learner`
+- `Course`
+- `Lesson`
+- `Enrollment`
+- `Question`
+- `Choice`
+- `Submission`
 
-### Assessment Scoring Rule
+## Main Application Flow
 
-`Question.is_get_score(selected_ids)` gives score only when:
+1. User opens `/onlinecourse/` and browses courses.
+2. User enrolls in a course.
+3. User reads lessons in the course detail page.
+4. User starts exam and submits answers.
+5. System creates `Submission`, evaluates answers, and returns result page.
 
-- all correct choices are selected
-- no incorrect choices are selected
+## URL Reference
 
-So each question is exact-match scoring.
+- `/admin/`
+- `/onlinecourse/`
+- `/onlinecourse/registration/`
+- `/onlinecourse/login/`
+- `/onlinecourse/logout/`
+- `/onlinecourse/<pk>/`
+- `/onlinecourse/<course_id>/enroll/`
+- `/onlinecourse/<course_id>/submit/`
+- `/onlinecourse/<course_id>/submission/<submission_id>/`
 
-## Main User Flows
+## Local Setup (Windows)
 
-### 1. Browse and Enroll
-
-- User visits `/onlinecourse/`
-- Sees top courses ordered by enrollment
-- Clicks `Enroll` -> enrollment record created (if authenticated)
-
-### 2. Learn and Take Exam
-
-- User enters course detail page
-- Lessons are displayed first
-- Exam section renders all questions and choices
-- User submits selected answers
-
-### 3. View Exam Result
-
-- System creates `Submission`
-- Selected choices are recorded
-- Score is calculated question-by-question
-- Result page displays:
-  - pass/fail message
-  - grade percentage
-  - per-question scoring details
-  - selected/correct choice highlights
-
-## URL Map
-
-From `myproject/urls.py` and `onlinecourse/urls.py`:
-
-- `/admin/` - Django admin
-- `/onlinecourse/` - course list (home)
-- `/onlinecourse/registration/` - register
-- `/onlinecourse/login/` - login
-- `/onlinecourse/logout/` - logout
-- `/onlinecourse/<pk>/` - course detail
-- `/onlinecourse/<course_id>/enroll/` - enroll
-- `/onlinecourse/<course_id>/submit/` - submit exam
-- `/onlinecourse/<course_id>/submission/<submission_id>/` - exam result
-
-## Local Run (Windows)
-
-Use Python 3.11 for best compatibility with this project setup.
+Use Python 3.11 for this project.
 
 ```powershell
-cd "C:\×ÀÃæ\IBM FullStack\SQL\Add a New Assessment Feature to an Online Course Application\tfjzl-final-cloud-app-with-database"
+cd <your-local-path>\tfjzl-final-cloud-app-with-database
 
-# Create and activate virtualenv
 py -3.11 -m venv .venv311
 .\.venv311\Scripts\Activate.ps1
 
@@ -136,64 +102,63 @@ Open:
 - App: `http://127.0.0.1:8000/onlinecourse/`
 - Admin: `http://127.0.0.1:8000/admin/`
 
-## Admin Setup and Test Data
+## Admin Setup
 
-1. Create a superuser:
+Create admin user:
 
 ```powershell
 python manage.py createsuperuser
 ```
 
-2. Login to admin and create:
+Then in Django admin, create data in this order:
 
-- Instructor (bind a user)
-- Course (with image + instructors)
-- Lessons for the course
-- Questions for the course
-- Choices for each question (mark correct options)
+1. Instructor (bind to an existing user)
+2. Course
+3. Lesson
+4. Question
+5. Choice
 
-3. Enroll from frontend and submit exam to validate scoring.
+## Assessment Scoring Logic
 
-## Final Assessment Feature (What Was Added in Final Task)
+`Question.is_get_score(selected_ids)` gives full points only when:
 
-The final lab enhancement includes:
+- all correct choices are selected
+- no incorrect choices are selected
 
-- new models: `Question`, `Choice`, `Submission`
-- admin inlines for question/choice editing
-- exam block added to course detail template
-- `submit` view and `show_exam_result` view
-- corresponding URL routes
-- exam result Bootstrap template with pass/fail UX
+This is exact match scoring per question.
 
-## Common Issues
+## Final Enhancement Summary
 
-### Admin crash: `'super' object has no attribute 'dicts'`
+Final stage additions:
 
-This is typically a Python runtime compatibility issue (commonly Python 3.14 with old dependency combinations in this lab context).
+- Added models: `Question`, `Choice`, `Submission`
+- Added admin inlines for question and choice editing
+- Added exam form on course detail template
+- Added `submit` and `show_exam_result` views
+- Added routes for submit and result pages
+- Added Bootstrap based exam result UI
+
+## Troubleshooting
+
+### Admin error: `'super' object has no attribute 'dicts'`
+
+This usually happens with Python 3.14 in this lab setup.
 
 Fix:
 
-- use Python 3.11 virtualenv
-- reinstall dependencies inside the new venv
-- rerun `migrate` and `runserver`
+1. Create a Python 3.11 virtual environment
+2. Reinstall dependencies
+3. Run migrations again
+4. Restart server
 
-### Course images not showing
+### Media not displayed
 
 Check:
 
-- image file exists under `static/media/course_images/`
 - `MEDIA_URL` and `MEDIA_ROOT` are configured
-- `urlpatterns` include `static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)`
-
-## Submission Artifacts (AI-Graded)
-
-If you are submitting the lab for grading, keep these artifacts ready:
-
-- public GitHub repo URL
-- `03-admin-site` screenshot
-- `07-final` screenshot
-- code in models/admin/views/urls/templates aligned with rubric
+- `urlpatterns` include media static mapping in development
+- image files exist under `static/media/`
 
 ## License
 
-Apache-2.0 (see `LICENSE`)
+Apache-2.0. See `LICENSE`.

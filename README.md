@@ -104,7 +104,7 @@ This repository started from a course lab baseline and has been upgraded toward 
 Use Python 3.11 for this project.
 
 ```powershell
-cd <your-local-path>\tfjzl-final-cloud-app-with-database
+cd <your-local-path>\online-course-platform
 
 py -3.11 -m venv .venv311
 .\.venv311\Scripts\Activate.ps1
@@ -112,6 +112,7 @@ py -3.11 -m venv .venv311
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 python manage.py migrate
+python manage.py test
 python manage.py runserver
 ```
 

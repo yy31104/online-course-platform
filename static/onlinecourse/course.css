@@ -175,3 +175,37 @@ input[type=text]:focus, input[type=password]:focus {
 .dropdown:hover .dropdown-content {display: block;}
 
 .dropdown:hover .dropbtn {background-color: darkblue;}
+
+.platform-body {
+  background: linear-gradient(135deg, #f7f9fc 0%, #eef3fb 100%);
+  min-height: 100vh;
+}
+
+.course-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 1.5rem rgba(31, 45, 61, 0.12);
+}
+
+.course-card img {
+  height: 180px;
+  object-fit: cover;
+}
+
+.lesson-block {
+  border-left: 4px solid #17a2b8;
+  padding-left: 12px;
+}
+
+.progress {
+  height: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 24px 16px;
+  }
+}

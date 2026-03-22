@@ -7,7 +7,6 @@ except Exception:
     sys.exit()
 
 from django.conf import settings
-import uuid
 
 
 # Instructor model
@@ -94,6 +93,17 @@ class Enrollment(models.Model):
     mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
     rating = models.FloatField(default=5.0)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "course"],
+                name="unique_user_course_enrollment",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.course.name}"
+
 
 class Question(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -130,3 +140,4 @@ class Choice(models.Model):
 class Submission(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice)
+    submitted_at = models.DateTimeField(default=now)

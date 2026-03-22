@@ -11,6 +11,10 @@ This repository contains a full Django online course platform built across multi
 - Exam submission and score evaluation
 - Django admin management for content creation
 - Bootstrap based UI templates
+- Reusable base template with consistent navigation and flash alerts
+- Form-based authentication flow with server-side validation
+- Assessment UX upgrades (answer progress + submit guardrails)
+- Automated tests for enrollment integrity and assessment scoring
 
 ## Tech Stack
 
@@ -68,6 +72,20 @@ Defined in `onlinecourse/models.py`:
 3. User reads lessons in the course detail page.
 4. User starts exam and submits answers.
 5. System creates `Submission`, evaluates answers, and returns result page.
+
+## Product and Engineering Upgrades
+
+This repository started from a course lab baseline and has been upgraded toward a production-style structure:
+
+- Added `base.html` and refactored templates to reduce repeated layout/auth blocks.
+- Added `onlinecourse/forms.py` to move login/registration validation into Django forms.
+- Added `onlinecourse/services.py` for reusable assessment functions:
+  - `extract_selected_choice_ids`
+  - `calculate_submission_result`
+- Hardened enrollment flow with `get_or_create` + DB uniqueness constraint.
+- Added `submitted_at` field to `Submission` for auditability.
+- Added client-side assessment UX improvements in `static/onlinecourse/exam.js`.
+- Added automated tests in `onlinecourse/tests.py` for scoring, enrollment idempotency, and result access control.
 
 ## URL Reference
 
@@ -137,6 +155,10 @@ Final stage additions:
 - Added `submit` and `show_exam_result` views
 - Added routes for submit and result pages
 - Added Bootstrap based exam result UI
+- Added unique enrollment constraint to prevent duplicate enrollments
+- Added service-layer scoring helper and request parsing helper
+- Added form-based authentication validation
+- Added assessment interaction improvements and coverage tests
 
 ## Troubleshooting
 
